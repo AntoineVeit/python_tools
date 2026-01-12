@@ -23,7 +23,7 @@ Fc = 750000
 Fc = float(input("enter a value for Fc \n ->"))
 filter_type = int(input("\n\nchoose the filter type\n"
                     "0 -> low-pass\n"
-                    "1 -> High-passn\n"
+                    "1 -> High-pass\n"
                     "2 -> band pass\n ->"))
 
 n = int(input("enter a value for n \n ->"))
@@ -40,11 +40,11 @@ if filter_type == 0:
     print()
     print("        p")
     print("C = --------")
-    print("      R0*ωc")
+    print("      R0*Wc")
     print()
     print("      p*R0")
     print("L = --------")
-    print("       ωc")
+    print("       Wc")
     print()
     input("press enter to calculate...")
     for i, p in enumerate(passiv_normalised_componant[n]):
@@ -58,11 +58,11 @@ elif filter_type == 1:
     print()
     print("        p")
     print("C = --------")
-    print("      R0*ωc")
+    print("      R0*Wc")
     print()
     print("      p*R0")
     print("L = --------")
-    print("       ωc")
+    print("       Wc")
     print()
     input("press enter to calculate...")
     for i, p in enumerate(passiv_normalised_componant[n]):
@@ -74,5 +74,9 @@ elif filter_type == 1:
 else:
     a = 0
 
-print("C_value = " ,C_value)
-print("L_value = " ,L_value)
+print("C_value = ")
+for c in C_value:
+    print(c)
+print("\nL_value = ")
+for l in L_value:
+    print(l)

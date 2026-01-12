@@ -27,8 +27,17 @@ passiv_normalised_componant: list[tuple[float, ...]] = [p_n0, p_n1, p_n2, p_n3, 
 def unit(u:float, sign:str = "") -> str:
     str_u = str(u)
     unit = " "
-    if u > 0.1:
-        pass
+    if u > 1000000000:
+        unit = " G"
+        str_u = str(round(u/1000000000,4))
+    elif u > 1000000:
+        unit = " M"
+        str_u = str(round(u/1000000,4))
+    elif u > 1000:
+        unit = " K"
+        str_u = str(round(u/1000,4))
+    elif u > 0.1:
+        unit = " "
         str_u = str(round(u,4))
     elif u > 0.0001:
         unit = " m"
@@ -43,5 +52,3 @@ def unit(u:float, sign:str = "") -> str:
         unit = " p"
         str_u = str(round(u*1000000000000,4))
     return str_u + unit + sign
-
-

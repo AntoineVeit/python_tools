@@ -23,7 +23,7 @@ n = 6
 Fc = float(input("enter a value for Fc \n ->"))
 filter_type = int(input("\n\nchoose the filter type\n"
                     "0 -> low-pass\n"
-                    "1 -> High-passn\n"
+                    "1 -> High-pass\n"
                     "2 -> band pass\n ->"))
 
 n = int(input("enter a value for n \n ->"))
@@ -39,33 +39,33 @@ if filter_type == 0:
     print()
     print("         p")
     print("R2 = --------")
-    print("      2*R*ωc")
+    print("      2*R*Wc")
     print()
     print("         1")
     print("R1 = --------")
-    print("      R²*R2*ωc²")
+    print("      R²*R2*Wc²")
     print()
     input("press enter to calculate...")
     for p in active_normalised_componant[n]:
         if p:
             var_2 = p/(3*r*wc)
             var_1 = 1/(pow(r,2)*var_2*pow(wc,2))
-            print("R1 = ", unit(var_1, "Ω"))
-            print("R2 = ", unit(var_2, "Ω"), "\n")
+            print("R1 = ", unit(var_1, "W"))
+            print("R2 = ", unit(var_2, "W"), "\n")
         else:   # RC filter
             var_1 = 1/(2*pi*c*Fc)
-            print("R value in RC = ", unit(var_1, "Ω"), "\n")
+            print("R value in RC = ", unit(var_1, "W"), "\n")
 elif filter_type == 1:
     r = float(input("enter a value for R \n->"))
 
     print()
     print("         p")
     print("C1 = --------")
-    print("      3*C*ωc")
+    print("      3*C*Wc")
     print()
     print("         1")
     print("C2 = --------")
-    print("      C1*C²*ωc²")
+    print("      C1*C²*Wc²")
     print()
     input("press enter to calculate...")
     for p in active_normalised_componant[n]:

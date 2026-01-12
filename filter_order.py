@@ -25,7 +25,7 @@ Gc = -3
 # 
 filter_type = int(input("\n\nchoose the filter type\n"
                     "0 -> low-pass\n"
-                    "1 -> High-passn\n"
+                    "1 -> High-pass\n"
                     "2 -> band pass\n ->"))
 
 Fa = float(input("enter a value for Fa \n ->"))
