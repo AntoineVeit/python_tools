@@ -75,7 +75,7 @@ elif filter_type == 1:
             print("R2 = ", unit(var_2, "W"), "\n")
         else:   # RC filter
             var_1 = 1/(2*pi*c*Fc)
-            print("R value in RC = ", unit(var_1, "W"), "\n")
+            print("R value in CR = ", unit(var_1, "W"), "\n")
 else:
     print("filter type not implemented yet !!!")
 
