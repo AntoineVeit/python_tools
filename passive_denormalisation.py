@@ -24,7 +24,8 @@ Fc = float(input("enter a value for Fc \n ->"))
 filter_type = int(input("\n\nchoose the filter type\n"
                     "0 -> low-pass\n"
                     "1 -> High-pass\n"
-                    "2 -> band pass\n ->"))
+                    "2 -> band pass\n"
+                    "3 -> band cut\n ->"))
 
 n = int(input("enter a value for n \n ->"))
 
@@ -71,8 +72,34 @@ elif filter_type == 1:
             L_value.append(unit((p*R0)/(wc), "H"))
         else:
             C_value.append(unit(p/(R0*wc), "F"))      
+elif filter_type == 2:
+    # add calculation for B (normalised bandwidth)
+    print("\n\nfor band-pass filter transposition of p\n")
+    print("-->  p = 1/B(p + 1/p)")
+    print()
+    print("        p")
+    print("C = --------")
+    print("      R0*Wc")
+    print()
+    print("      p*R0")
+    print("L = --------")
+    print("       Wc")
+    print()
+elif filter_type == 3:
+    # add calculation for B (normalised bandwidth)
+    print("\n\nfor band-cut filter transposition of p\n")
+    print("-->  p = pB/p² + 1")
+    print()
+    print("        p")
+    print("C = --------")
+    print("      R0*Wc")
+    print()
+    print("      p*R0")
+    print("L = --------")
+    print("       Wc")
+    print()
 else:
-    a = 0
+    print("input not valid")   
 
 print("C_value = ")
 for c in C_value:

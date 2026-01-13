@@ -1,3 +1,11 @@
+"""
+TO IMPLEMENT : 
++ add band-pass and band-cut filter support
++ add quality factor, freq response (fn, Q, K) calculation
+
+"""
+
+
 from math import sqrt, pow, pi, log10, ceil
 from common import *
 

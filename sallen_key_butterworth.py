@@ -1,3 +1,9 @@
+"""
+TO IMPLEMENT : 
++ add band-pass and band-cut filter support
++ add quality factor, freq response (fn, Q, K) calculation
+"""
+
 from math import sqrt, pow, pi, log10, ceil
 from common import *
 
@@ -18,6 +24,10 @@ n = 6
 #
 # user Variables
 #  
+
+fn_array = []
+m_array = []
+K_array = []
 
 
 Fc = float(input("enter a value for Fc \n ->"))
@@ -44,6 +54,16 @@ if filter_type == 0:
     print("C1 = --------")
     print("      R²*C2*Wc²")
     print()
+    print()
+    print("            1")
+    print("R²C1C2 = --------")
+    print("           Wn²")
+    print()
+    print()
+    print("          2m")
+    print("2RC1 = --------")
+    print("          Wn")
+    print()
     input("press enter to calculate...")
     for p in active_normalised_componant[n]:
         if p:
@@ -51,9 +71,11 @@ if filter_type == 0:
             var_c1 = 1/(pow(r,2)*var_c2*pow(wc,2))
             print("C1 = ", unit(var_c1, "F"))
             print("C2 = ", unit(var_c2, "F"), "\n")
+            fn_array.append()
         else:   # RC filter
             var_1 = 1/(2*pi*r*Fc)
             print("C value in RC = ", unit(var_1, "F"), "\n")
+    
 elif filter_type == 1:
     c = float(input("enter a value for C \n->"))
     
@@ -78,6 +100,8 @@ elif filter_type == 1:
             print("R value in CR = ", unit(var_1, "W"), "\n")
 else:
     print("filter type not implemented yet !!!")
+
+
 
 
 
