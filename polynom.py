@@ -60,15 +60,15 @@ def poly_to_string(coeffs, var="x"):
         if c == 0:
             continue
 
-        sign = "-" if c < 0 else "+"
+        sign = " - " if c < 0 else " + "
         abs_c = -c if c < 0 else c
 
         if deg == 0:
             body = str(abs_c)
         elif deg == 1:
-            body = var if abs_c == 1 else f"{abs_c}{var}"
+            body = var if abs_c == 1 else str(abs_c) + var
         else:
-            body = f"{var}^{deg}" if abs_c == 1 else f"{abs_c}{var}^{deg}"
+            body = var + "^" + str(deg) if abs_c == 1 else str(abs_c)+var+ "^" + str(deg)
 
         terms.append((sign, body))
 
@@ -77,10 +77,10 @@ def poly_to_string(coeffs, var="x"):
 
     # Premier terme sans "+" initial
     sign0, body0 = terms[0]
-    out = (f"-{body0}" if sign0 == "-" else body0)
+    out = ("-" + body0 if sign0 == "-" else body0)
 
     for sign, body in terms[1:]:
-        out += f" {sign} {body}"
+        out += sign + body
     return out
 
 
