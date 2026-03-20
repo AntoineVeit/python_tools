@@ -138,21 +138,19 @@ class gate:
 
 
 
-# while type(prev_gate) == gate:
-#     prev_gate = prev_gate.in1()
-#     if prev_gate:
-#         print(prev_gate.gate_type)
 
-
-
-user_input = input("enter the pin names\n :")
 
 input_dict:dict[str,gate] = {}
-for pin in user_input.split(","):
+
+a = input("enter the pin names\n :")
+user_input:list[str] = []
+while a != "":
+    user_input.append(a)
+    a = input("enter the pin names\n :")
+for pin in user_input:
     input_dict[pin] = (gate(pin, PIN))
 
 a = input("enter the node names and gate type\n :")
-user_input:list[str] = []
 while a != "":
     user_input.append(a)
     a = input("enter the node names and gate type\n :")
@@ -170,6 +168,9 @@ for in_gate in user_input:
         input_dict[in_gate.split("_")[0]] = gate(in_gate.split("_")[0], XOR, input_dict[in_gate.split("_")[2]], input_dict[in_gate.split("_")[3]])
     elif "_not_" in in_gate:
         input_dict[in_gate.split("_")[0]] = gate(in_gate.split("_")[0], NOT, input_dict[in_gate.split("_")[2]])
+
+
+
 
 
 input_dict["s"].COout.append(0)
