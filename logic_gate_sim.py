@@ -19,12 +19,46 @@ class gate:
         self.A = A
         self.B = B
         self.gate_type = gate_type
+        self.COout:list[int] = []
 
     def SCOAP(self) -> None:
-        print(f"{   self.node_name.rjust(5)}   {str(self.CC0()).rjust(5)}   {str(self.CC1()).rjust(5)}")
+        return (f"{   self.node_name.rjust(5)}   {str(self.CC0()).rjust(5)}   {str(self.CC1()).rjust(5)}")
 
     def fault_sim(self) -> None:
         pass
+
+    def CO(self) -> int:
+        if self.gate_type == PIN:
+            return min(self.COout)
+        
+        elif self.gate_type == AND:
+            self.A.COout.append(min(self.COout) + self.B.CC1() + 1)
+            self.B.COout.append(min(self.COout) + self.A.CC1() + 1)
+            return min(self.COout)
+    
+        elif self.gate_type == OR:
+            self.A.COout.append(min(self.COout) + self.B.CC0() + 1)
+            self.B.COout.append(min(self.COout) + self.A.CC0() + 1)
+            return min(self.COout)
+    
+        elif self.gate_type == NAND:
+            self.A.COout.append(min(self.COout) + self.B.CC1() + 1)
+            self.B.COout.append(min(self.COout) + self.A.CC1() + 1)
+            return min(self.COout)
+    
+        elif self.gate_type == NOR:
+            self.A.COout.append(min(self.COout) + self.B.CC0() + 1)
+            self.B.COout.append(min(self.COout) + self.A.CC0() + 1)
+            return min(self.COout)
+    
+        elif self.gate_type == XOR:
+            self.A.COout.append(min(self.COout) + min(self.B.CC0(), self.B.CC1()) + 1)
+            self.B.COout.append(min(self.COout) + min(self.A.CC0(), self.A.CC1()) + 1)
+            return min(self.COout)
+    
+        elif self.gate_type == NOT:
+            self.A.COout.append(min(self.COout) + 1)
+            return min(self.COout)
 
     def CC0(self) -> int:
         if self.gate_type == PIN:
@@ -110,24 +144,58 @@ class gate:
 #         print(prev_gate.gate_type)
 
 
-pin_a = gate("a",PIN)
-pin_b = gate("b",PIN)
-pin_c = gate("c",PIN)
-pin_d = gate("d",PIN)
+
+user_input = input("enter the pin names\n :")
+
+input_dict:dict[str,gate] = {}
+for pin in user_input.split(","):
+    input_dict[pin] = (gate(pin, PIN))
+
+a = input("enter the node names and gate type\n :")
+user_input:list[str] = []
+while a != "":
+    user_input.append(a)
+    a = input("enter the node names and gate type\n :")
+
+for in_gate in user_input:
+    if "_and_" in in_gate:
+        input_dict[in_gate.split("_")[0]] = gate(in_gate.split("_")[0], AND, input_dict[in_gate.split("_")[2]], input_dict[in_gate.split("_")[3]])
+    elif "_or_" in in_gate:
+        input_dict[in_gate.split("_")[0]] = gate(in_gate.split("_")[0], OR, input_dict[in_gate.split("_")[2]], input_dict[in_gate.split("_")[3]])
+    elif "_nand_" in in_gate:
+        input_dict[in_gate.split("_")[0]] = gate(in_gate.split("_")[0], NAND, input_dict[in_gate.split("_")[2]], input_dict[in_gate.split("_")[3]])
+    elif "_nor_" in in_gate:
+        input_dict[in_gate.split("_")[0]] = gate(in_gate.split("_")[0], NOR, input_dict[in_gate.split("_")[2]], input_dict[in_gate.split("_")[3]])
+    elif "_xor_" in in_gate:
+        input_dict[in_gate.split("_")[0]] = gate(in_gate.split("_")[0], XOR, input_dict[in_gate.split("_")[2]], input_dict[in_gate.split("_")[3]])
+    elif "_not_" in in_gate:
+        input_dict[in_gate.split("_")[0]] = gate(in_gate.split("_")[0], NOT, input_dict[in_gate.split("_")[2]])
 
 
-y1 = gate("y1", NAND, pin_a, pin_b)
-y2 = gate("y2",AND, y1, pin_c)
-y3 = gate("y3",OR, pin_c, pin_d)
-y4 = gate("y4",OR, y1, y2)
-y5 = gate("y5",NOT, y2)
-y6 = gate("y6",AND, y5, y3)
-S  = gate("y7",AND, y4, y6)
+input_dict["s"].COout.append(0)
+input_list:list[gate] = list(input_dict.values())
 
-input_list = [pin_a, pin_b, pin_c, pin_d, y1, y2, y3, y4, y5, y6, S]
-
-
-print(f"{"node".rjust(5)}   {"CC0".rjust(5)}   {"CC1".rjust(5)}")
+scoap_list = []
+print(f"{"node".rjust(5)}   {"CC0".rjust(5)}   {"CC1".rjust(5)}   {"CO".rjust(5)}")
 for i in input_list:
-    i.SCOAP()
+    scoap_list.append(i.SCOAP())
+input_list.reverse()
+scoap_list.reverse()
+for i, j in enumerate(input_list):
+    scoap_list[i] += f"   {str(j.CO()).rjust(5)}"
+scoap_list.reverse()
+for i in scoap_list:
+    print(i)
 
+# name_list:list[str] = []
+# for i in input_list:
+#     name_list.append(i.node_name)
+
+# fault_bits = ["OK", "0y1", "1y1", "0y2", "1y3", "0y4", "1y5", "0y5", ]
+# print()
+# print()
+# print("bits   0   1   2   3   4   5   6   7")
+# print("------------------------------------")
+# for i in range(len(fault_bits)):
+#     if fault_bits[i] != "OK":
+#         print(f"{fault_bits[i]}    {int(not(int(fault_bits[i][0])))}   {int(not(int(fault_bits[i][0])))if i != 1 else fault_bits[i][0]}   {int(not(int(fault_bits[i][0])))if i != 2 else fault_bits[i][0]}   {int(not(int(fault_bits[i][0])))if i != 3 else fault_bits[i][0]}   {int(not(int(fault_bits[i][0])))if i != 4 else fault_bits[i][0]}   {int(not(int(fault_bits[i][0])))if i != 5 else fault_bits[i][0]}   {int(not(int(fault_bits[i][0])))if i != 6 else fault_bits[i][0]}   {int(not(int(fault_bits[i][0])))if i != 7 else fault_bits[i][0]}")
